@@ -14,3 +14,14 @@ List_ptr create_list(void)
 
   return list;
 }
+
+Node_ptr create_node(Element value){
+  Node_ptr node = malloc(sizeof(Node));
+  
+  if(node != NULL){
+    node->element = value;
+    node->next = NULL;
+  }
+
+  return node;
+}
