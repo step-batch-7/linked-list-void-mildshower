@@ -79,3 +79,27 @@ Status add_to_start(List_ptr list, Element value)
   list->length++;
   return Success;
 }
+
+Status insert_at(List_ptr list, Element element, int position)
+{
+  if (position > list->length || position < 0)
+    return Failure;
+
+  if (position == 0)
+    return add_to_start(list, element);
+
+  Node_ptr new_node = create_node(element);
+
+  if (new_node == NULL)
+    return Failure;
+
+  Node_ptr previous_node = get_node(list, position - 1);
+  new_node->next = previous_node->next;
+  previous_node->next = new_node;
+
+  if (position == list->length)
+    list->last = new_node;
+
+  list->length++;
+  return Success;
+}

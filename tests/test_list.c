@@ -87,6 +87,56 @@ void test_add_to_start(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_insert_at(void)
+{
+  printf("\n\nTesting insert_at\n\n");
+
+  List_ptr list = create_list();
+  int number[] = {0, 1, 2, 3, 4};
+  printf("\tShould add new number at the given valid position for empty list\n");
+  assert(insert_at(list, number, 0));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 0);
+  assert(list->length == 1);
+  printf("\t\t--passed\n\n");
+
+  add_to_list(list, number + 2);
+  printf("\tShould add new number at middle\n");
+  assert(insert_at(list, number + 1, 1));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 2);
+  assert(list->length == 3);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould not add new number a position is given that exceeds allowed limit\n");
+  assert(!insert_at(list, number, 10));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 2);
+  assert(list->length == 3);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould not add new number a negative position is given\n");
+  assert(!insert_at(list, 0, 10));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 2);
+  assert(list->length == 3);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould add new number at last when position is given for last\n");
+  assert(insert_at(list, number + 3, 3));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 3);
+  assert(list->length == 4);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould add new number at begining when 0 is given as position\n");
+  assert(insert_at(list, number + 4, 0));
+  assert(*(int *)list->first->element == 4);
+  assert(*(int *)list->last->element == 3);
+  assert(list->length == 5);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -94,6 +144,7 @@ int main(void)
   test_get_node();
   test_add_to_list();
   test_add_to_start();
+  test_insert_at();
 
   return 0;
 }
