@@ -301,6 +301,34 @@ void test_remove_from_start(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_remove_from_end(void)
+{
+  printf("\n\nTesting remove_from_end\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould give NULL when empty list is given to remove_from_end function\n");
+  assert(remove_from_end(list) == NULL);
+  printf("\t\t--passed\n\n");
+
+  int numbers[] = {0, 1};
+  printf("\tShould make the list empty when list with single element is given\n");
+  add_to_list(list, numbers);
+  assert(*(int *)remove_from_end(list) == 0);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove the last element\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  assert(*(int *)remove_from_end(list) == 1);
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 0);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -315,6 +343,7 @@ int main(void)
   test_reduce();
   test_forEach();
   test_remove_from_start();
+  test_remove_from_end();
 
   return 0;
 }
