@@ -15,15 +15,32 @@ List_ptr create_list(void)
   return list;
 }
 
-Node_ptr create_node(Element value){
+Node_ptr create_node(Element value)
+{
   Node_ptr node = malloc(sizeof(Node));
-  
-  if(node != NULL){
+
+  if (node != NULL)
+  {
     node->element = value;
     node->next = NULL;
   }
 
   return node;
+}
+
+Node_ptr get_node(List_ptr list, unsigned pos)
+{
+  if (pos >= list->length)
+    return NULL;
+
+  Node_ptr selected_node = list->first;
+
+  for (unsigned curr_pos = 0; curr_pos < pos; curr_pos++)
+  {
+    selected_node = selected_node->next;
+  }
+
+  return selected_node;
 }
 
 Status add_to_list(List_ptr list, Element value)

@@ -8,8 +8,8 @@ void test_create_list(void)
 
   printf("\tShould create an empty list\n");
   List_ptr list = create_list();
-  assert(list->first==NULL);
-  assert(list->last==NULL);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
   assert(list->length == 0);
   printf("\t\t--passed\n\n");
 }
@@ -22,8 +22,25 @@ void test_create_node(void)
   int *number = malloc(sizeof(int));
   *number = 0;
   Node_ptr node = create_node(number);
-  assert(*(int *)node->element==0);
+  assert(*(int *)node->element == 0);
   assert(node->next == NULL);
+  printf("\t\t--passed\n\n");
+}
+
+void test_get_node(void)
+{
+  printf("\n\nTesting get_node\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould give the wanted node\n");
+  int *number = malloc(sizeof(int));
+  *number = 0;
+  assert(add_to_list(list, number));
+  assert(*(int *)get_node(list, 0)->element == 0);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould give NULL when invalid position is given\n");
+  assert(get_node(list, 10) == NULL);
   printf("\t\t--passed\n\n");
 }
 
@@ -70,9 +87,11 @@ void test_add_to_start(void)
   printf("\t\t--passed\n\n");
 }
 
-int main(void){
+int main(void)
+{
   test_create_list();
   test_create_node();
+  test_get_node();
   test_add_to_list();
   test_add_to_start();
 

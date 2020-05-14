@@ -43,6 +43,8 @@ typedef Status (*Matcher)(Element, Element);
 List_ptr create_list(void);
 Node_ptr create_node(Element);
 
+Node_ptr get_node(List_ptr, unsigned);
+
 Status add_to_list(List_ptr, Element);
 Status add_to_start(List_ptr, Element);
 Status insert_at(List_ptr, Element element, int position);
