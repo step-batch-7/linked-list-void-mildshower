@@ -52,10 +52,7 @@ Status add_to_list(List_ptr list, Element value)
 
   Node_ptr *ptr_to_set = &list->first;
 
-  if (list->first != NULL)
-  {
-    ptr_to_set = &list->last->next;
-  }
+  list->first != NULL && (ptr_to_set = &list->last->next);
 
   *ptr_to_set = new_node;
   list->last = new_node;
@@ -97,8 +94,7 @@ Status insert_at(List_ptr list, Element element, int position)
   new_node->next = previous_node->next;
   previous_node->next = new_node;
 
-  if (position == list->length)
-    list->last = new_node;
+  position == list->length && (list->last = new_node);
 
   list->length++;
   return Success;
@@ -169,4 +165,18 @@ void forEach(List_ptr list, ElementProcessor processor)
     (*processor)(curr_node->element);
     curr_node = curr_node->next;
   }
+}
+
+Element remove_from_start(List_ptr list)
+{
+  if (!list->length)
+    return NULL;
+
+  Node_ptr node_to_remove = list->first;
+  Element element_of_removing_node = node_to_remove->element;
+  list->first = list->first->next;
+  free(node_to_remove);
+  list->length == 1 && (list->last = NULL);
+  list->length--;
+  return element_of_removing_node;
 }
