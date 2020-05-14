@@ -48,10 +48,33 @@ void test_add_to_list(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_add_to_start(void)
+{
+  printf("\n\nTesting add_to_start\n\n");
+
+  List_ptr list = create_list();
+  int *number = malloc(sizeof(int));
+  *number = 0;
+  printf("\tShould add new number at Start when list is empty\n");
+  assert(add_to_start(list, number));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 0);
+  assert(list->length == 1);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould add new number at Start when list has elements\n");
+  assert(add_to_start(list, number));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 0);
+  assert(list->length == 2);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void){
   test_create_list();
   test_create_node();
   test_add_to_list();
+  test_add_to_start();
 
   return 0;
 }
