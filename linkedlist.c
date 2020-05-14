@@ -103,3 +103,18 @@ Status insert_at(List_ptr list, Element element, int position)
   list->length++;
   return Success;
 }
+
+List_ptr reverse(List_ptr list)
+{
+  List_ptr reversed_list = create_list();
+
+  Node_ptr curr_node = list->first;
+
+  while (curr_node != NULL)
+  {
+    add_to_start(reversed_list, curr_node->element);
+    curr_node = curr_node->next;
+  }
+
+  return reversed_list;
+}

@@ -137,6 +137,29 @@ void test_insert_at(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_reverse(void)
+{
+  printf("\n\nTesting reverse\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould produce empty list when empty list is reversed\n");
+  List_ptr reversed_list_1 = reverse(list);
+  assert(reversed_list_1->length == 0);
+  assert(reversed_list_1->first == NULL);
+  assert(reversed_list_1->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould reverse list with elements\n");
+  int numbers[] = {0, 1};
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  List_ptr reversed_list_2 = reverse(list);
+  assert(reversed_list_2->length == 2);
+  assert(*(int *)reversed_list_2->first->element == 1);
+  assert(*(int *)reversed_list_2->last->element == 0);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -145,6 +168,7 @@ int main(void)
   test_add_to_list();
   test_add_to_start();
   test_insert_at();
+  test_reverse();
 
   return 0;
 }
