@@ -145,3 +145,17 @@ List_ptr filter(List_ptr list, Predicate predicate)
 
   return filtered_list;
 }
+
+Element reduce(List_ptr list, Element initial_context, Reducer reducer)
+{
+  Node_ptr context = initial_context;
+  Node_ptr curr_node = list->first;
+
+  while (curr_node != NULL)
+  {
+    context = reducer(context, curr_node->element);
+    curr_node = curr_node->next;
+  }
+
+  return context;
+}

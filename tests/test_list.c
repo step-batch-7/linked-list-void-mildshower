@@ -14,6 +14,13 @@ Status is_even_number_element(Element number)
   return !(*(int *)number % 2);
 }
 
+Element add_number_elements(Element number1, Element number2)
+{
+  Element sum = malloc(sizeof(int));
+  *(int *)sum = *(int *)number1 + *(int *)number2;
+  return sum;
+}
+
 void test_create_list(void)
 {
   printf("\n\nTesting create_list\n\n");
@@ -208,7 +215,7 @@ void test_filter(void)
   printf("\t\t--passed\n\n");
 
   printf("\tShould keep only even numbers\n");
-  int numbers[] = {0, 1, 2, 4};
+  int numbers[] = {0, 1, 2};
   add_to_list(list, numbers);
   add_to_list(list, numbers + 1);
   add_to_list(list, numbers + 2);
@@ -216,6 +223,25 @@ void test_filter(void)
   assert(filtered_list_2->length == 2);
   assert(*(int *)filtered_list_2->first->element == 0);
   assert(*(int *)filtered_list_2->last->element == 2);
+  printf("\t\t--passed\n\n");
+}
+
+void test_reduce(void)
+{
+  printf("\n\nTesting reduce\n\n");
+
+  List_ptr list = create_list();
+  int numbers[] = {0, 1, 2};
+  printf("\tShould give initial context back when reduced an empty list\n");
+  Element sum1 = reduce(list, numbers, &add_number_elements);
+  assert(*(int *)sum1 == 0);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould sum up all numbers\n");
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers + 2);
+  Element sum2 = reduce(list, numbers, &add_number_elements);
+  assert(*(int *)sum2 == 3);
   printf("\t\t--passed\n\n");
 }
 
@@ -230,6 +256,7 @@ int main(void)
   test_reverse();
   test_map();
   test_filter();
+  test_reduce();
 
   return 0;
 }
