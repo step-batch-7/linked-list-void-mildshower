@@ -196,3 +196,21 @@ Element remove_from_end(List_ptr list)
   list->length--;
   return element_of_removing_node;
 }
+
+Element remove_at(List_ptr list, int position)
+{
+  if (position >= list->length || position < 0)
+    return NULL;
+
+  if (position == 0)
+    return remove_from_start(list);
+
+  Node_ptr previous_node = get_node(list, position - 1);
+  Node_ptr node_to_remove = previous_node->next;
+  Element element_of_removing_node = node_to_remove->element;
+  previous_node->next = node_to_remove->next;
+  free(node_to_remove);
+  position == list->length - 1 && (list->last = previous_node);
+  list->length--;
+  return element_of_removing_node;
+}

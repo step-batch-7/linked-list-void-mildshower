@@ -329,6 +329,59 @@ void test_remove_from_end(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_remove_at(void)
+{
+  printf("\n\nTesting remove_at\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould give NULL when empty list is given to remove_at function\n");
+  assert(remove_at(list, 0) == NULL);
+  printf("\t\t--passed\n\n");
+
+  int numbers[] = {0, 1, 2};
+  printf("\tShould give NULL if negative position is given\n");
+  add_to_list(list, numbers);
+  assert(remove_at(list, -1) == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould give NULL if exceeded postion is given\n");
+  assert(remove_at(list, 1) == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould make the list empty when list with single element is given\n");
+  assert(*(int *)remove_at(list, 0) == 0);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove first element when first element's position is given\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers + 2);
+  assert(*(int *)remove_at(list, 0) == 0);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 2);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove last element when last element's position is given\n");
+  assert(*(int *)remove_at(list, 1) == 2);
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 1);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove a middle element\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 2);
+  assert(*(int *)remove_at(list, 1) == 0);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 2);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -344,6 +397,7 @@ int main(void)
   test_forEach();
   test_remove_from_start();
   test_remove_from_end();
+  test_remove_at();
 
   return 0;
 }
