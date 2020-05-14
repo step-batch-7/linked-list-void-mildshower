@@ -21,6 +21,14 @@ Element add_number_elements(Element number1, Element number2)
   return sum;
 }
 
+int function_call_count = 0;
+
+void assert_element_value(Element number)
+{
+  assert(*(int *)number == function_call_count);
+  function_call_count++;
+}
+
 void test_create_list(void)
 {
   printf("\n\nTesting create_list\n\n");
@@ -245,6 +253,26 @@ void test_reduce(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_forEach(void)
+{
+  printf("\n\nTesting forEach\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould not call processor function when empty list is given\n");
+  forEach(list, &assert_element_value);
+  assert(function_call_count == 0);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould call processor function with each element\n");
+  int numbers[] = {0, 1, 2};
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers + 2);
+  forEach(list, &assert_element_value);
+  assert(function_call_count == 3);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -257,6 +285,7 @@ int main(void)
   test_map();
   test_filter();
   test_reduce();
+  test_forEach();
 
   return 0;
 }

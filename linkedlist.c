@@ -153,9 +153,20 @@ Element reduce(List_ptr list, Element initial_context, Reducer reducer)
 
   while (curr_node != NULL)
   {
-    context = reducer(context, curr_node->element);
+    context = (*reducer)(context, curr_node->element);
     curr_node = curr_node->next;
   }
 
   return context;
+}
+
+void forEach(List_ptr list, ElementProcessor processor)
+{
+  Node_ptr curr_node = list->first;
+
+  while (curr_node != NULL)
+  {
+    (*processor)(curr_node->element);
+    curr_node = curr_node->next;
+  }
 }
