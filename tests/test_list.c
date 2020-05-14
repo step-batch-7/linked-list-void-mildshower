@@ -2,6 +2,13 @@
 #include <assert.h>
 #include "../linkedlist.h"
 
+Element increment_number_element(Element number)
+{
+  Element incremented_number = malloc(sizeof(int));
+  *(int *)incremented_number = *(int *)number + 1;
+  return incremented_number;
+}
+
 void test_create_list(void)
 {
   printf("\n\nTesting create_list\n\n");
@@ -160,6 +167,29 @@ void test_reverse(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_map(void)
+{
+  printf("\n\nTesting map\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould produce empty list when empty list is mapped\n");
+  List_ptr mapped_list_1 = map(list, &increment_number_element);
+  assert(mapped_list_1->length == 0);
+  assert(mapped_list_1->first == NULL);
+  assert(mapped_list_1->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould map list with elements\n");
+  int numbers[] = {0, 1};
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  List_ptr mapped_list_2 = map(list, &increment_number_element);
+  assert(mapped_list_2->length == 2);
+  assert(*(int *)mapped_list_2->first->element == 1);
+  assert(*(int *)mapped_list_2->last->element == 2);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -169,6 +199,7 @@ int main(void)
   test_add_to_start();
   test_insert_at();
   test_reverse();
+  test_map();
 
   return 0;
 }
