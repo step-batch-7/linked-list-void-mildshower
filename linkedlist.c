@@ -131,3 +131,17 @@ List_ptr map(List_ptr list, Mapper mapper)
 
   return mapped_list;
 }
+
+List_ptr filter(List_ptr list, Predicate predicate)
+{
+  List_ptr filtered_list = create_list();
+  Node_ptr curr_node = list->first;
+
+  while (curr_node != NULL)
+  {
+    (*predicate)(curr_node->element) && add_to_list(filtered_list, curr_node->element);
+    curr_node = curr_node->next;
+  }
+
+  return filtered_list;
+}

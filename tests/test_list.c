@@ -9,6 +9,11 @@ Element increment_number_element(Element number)
   return incremented_number;
 }
 
+Status is_even_number_element(Element number)
+{
+  return !(*(int *)number % 2);
+}
+
 void test_create_list(void)
 {
   printf("\n\nTesting create_list\n\n");
@@ -179,7 +184,7 @@ void test_map(void)
   assert(mapped_list_1->last == NULL);
   printf("\t\t--passed\n\n");
 
-  printf("\tShould map list with elements\n");
+  printf("\tShould increment all numbers by 1\n");
   int numbers[] = {0, 1};
   add_to_list(list, numbers);
   add_to_list(list, numbers + 1);
@@ -187,6 +192,30 @@ void test_map(void)
   assert(mapped_list_2->length == 2);
   assert(*(int *)mapped_list_2->first->element == 1);
   assert(*(int *)mapped_list_2->last->element == 2);
+  printf("\t\t--passed\n\n");
+}
+
+void test_filter(void)
+{
+  printf("\n\nTesting filter\n\n");
+
+  List_ptr list = create_list();
+  printf("\tShould produce empty list when empty list is filtered\n");
+  List_ptr filtered_list_1 = filter(list, &is_even_number_element);
+  assert(filtered_list_1->length == 0);
+  assert(filtered_list_1->first == NULL);
+  assert(filtered_list_1->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould keep only even numbers\n");
+  int numbers[] = {0, 1, 2, 4};
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers + 2);
+  List_ptr filtered_list_2 = filter(list, &is_even_number_element);
+  assert(filtered_list_2->length == 2);
+  assert(*(int *)filtered_list_2->first->element == 0);
+  assert(*(int *)filtered_list_2->last->element == 2);
   printf("\t\t--passed\n\n");
 }
 
@@ -200,6 +229,7 @@ int main(void)
   test_insert_at();
   test_reverse();
   test_map();
+  test_filter();
 
   return 0;
 }
