@@ -485,6 +485,25 @@ void test_remove_all_occurrences(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_is_present(void)
+{
+  printf("\n\nTesting is_present\n\n");
+
+  List_ptr list = create_list();
+  int numbers[] = {0, 1, 2, 3};
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers + 2);
+
+  printf("\tShould give success if given element is present\n");
+  assert(is_present(list, numbers + 2, &are_number_elements_same));
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould give failure if given element is not present\n");
+  assert(!is_present(list, numbers + 3, &are_number_elements_same));
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -503,6 +522,7 @@ int main(void)
   test_remove_at();
   test_remove_first_occurrence();
   test_remove_all_occurrences();
+  test_is_present();
 
   return 0;
 }

@@ -273,3 +273,21 @@ List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher)
 
   return removed_nodes;
 }
+
+Status is_present(List_ptr list, Element element, Matcher matcher)
+{
+  Status is_present = Failure;
+  Node_ptr curr_node = list->first;
+
+  while (curr_node != NULL)
+  {
+    if ((*matcher)(element, curr_node->element))
+    {
+      is_present = Success;
+      break;
+    }
+    curr_node = curr_node->next;
+  }
+
+  return is_present;
+}
