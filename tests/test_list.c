@@ -439,6 +439,52 @@ void test_remove_first_occurrence(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_remove_all_occurrences(void)
+{
+  printf("\n\nTesting remove_all_occurrences\n\n");
+
+  List_ptr list = create_list();
+  int numbers[] = {0, 1, 2};
+  printf("\tShould give empty list when empty list is given to remove_all_occurrences function\n");
+  List_ptr removed_nodes_1 = remove_all_occurrences(list, numbers, &are_number_elements_same);
+  assert(removed_nodes_1->length == 0);
+  assert(removed_nodes_1->first == NULL);
+  assert(removed_nodes_1->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould give empty list when no element matches\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers);
+  List_ptr removed_nodes_2 = remove_all_occurrences(list, numbers + 2, &are_number_elements_same);
+  assert(removed_nodes_2->length == 0);
+  assert(removed_nodes_2->first == NULL);
+  assert(removed_nodes_2->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove all matched elements\n");
+  add_to_list(list, numbers);
+  List_ptr removed_nodes_3 = remove_all_occurrences(list, numbers, &are_number_elements_same);
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 1);
+  assert(removed_nodes_3->length == 4);
+  assert(*(int *)removed_nodes_3->first->element == 0);
+  assert(*(int *)removed_nodes_3->last->element == 0);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould clear the list when single element mathces\n");
+  List_ptr removed_nodes_4 = remove_all_occurrences(list, numbers + 1, &are_number_elements_same);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  assert(removed_nodes_4->length == 1);
+  assert(*(int *)removed_nodes_4->first->element == 1);
+  assert(*(int *)removed_nodes_4->last->element == 1);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -456,6 +502,7 @@ int main(void)
   test_remove_from_end();
   test_remove_at();
   test_remove_first_occurrence();
+  test_remove_all_occurrences();
 
   return 0;
 }

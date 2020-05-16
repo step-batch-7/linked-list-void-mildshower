@@ -243,3 +243,33 @@ Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
 
   return element_of_removing_node;
 }
+
+List_ptr remove_all_occurrences(List_ptr list, Element element, Matcher matcher)
+{
+  List_ptr removed_nodes = create_list();
+
+  if (list->length == 0)
+    return removed_nodes;
+
+  Node_ptr curr_node = list->first;
+
+  while (curr_node->next != NULL)
+  {
+    if ((*matcher)(element, curr_node->next->element))
+    {
+      Node_ptr node_to_remove = curr_node->next;
+      curr_node->next = curr_node->next->next;
+      add_to_list(removed_nodes, node_to_remove->element);
+      list->last == node_to_remove && (list->last = curr_node);
+      free(node_to_remove);
+      list->length--;
+    }
+    else
+      curr_node = curr_node->next;
+  }
+
+  if ((*matcher)(element, list->first->element))
+    add_to_start(removed_nodes, remove_from_start(list));
+
+  return removed_nodes;
+}
