@@ -299,3 +299,20 @@ Status add_unique(List_ptr list, Element element, Matcher matcher)
 
   return add_to_list(list, element);
 }
+
+Status clear_list(List_ptr list)
+{
+  Node_ptr curr_node = list->first;
+
+  while (curr_node != NULL)
+  {
+    Node_ptr node_to_remove = curr_node;
+    curr_node = curr_node->next;
+    free(node_to_remove);
+  }
+
+  list->first = NULL;
+  list->last = NULL;
+  list->length = 0;
+  return Success;
+}

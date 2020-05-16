@@ -522,6 +522,22 @@ void test_add_unique(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_clear_list(void)
+{
+  printf("\n\nTesting clear_list\n\n");
+
+  List_ptr list = create_list();
+  int numbers[] = {0, 1};
+  printf("\tShould clear a list\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  assert(clear_list(list));
+  assert(list->last == NULL);
+  assert(list->first == NULL);
+  assert(list->length == 0);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -542,6 +558,7 @@ int main(void)
   test_remove_all_occurrences();
   test_is_present();
   test_add_unique();
+  test_clear_list();
 
   return 0;
 }
