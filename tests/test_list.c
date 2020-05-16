@@ -29,6 +29,11 @@ void assert_element_value(Element number)
   function_call_count++;
 }
 
+Status are_number_elements_same(Element number1, Element number2)
+{
+  return *(int *)number1 == *(int *)number2;
+}
+
 void test_create_list(void)
 {
   printf("\n\nTesting create_list\n\n");
@@ -382,6 +387,58 @@ void test_remove_at(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_remove_first_occurrence(void)
+{
+  printf("\n\nTesting remove_first_occurrence\n\n");
+
+  List_ptr list = create_list();
+  int numbers[] = {0, 1, 2};
+  printf("\tShould give NULL when empty list is given to remove_first_occurrence function\n");
+  assert(remove_first_occurrence(list, numbers, &are_number_elements_same) == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould give NULL when no element matches\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  assert(remove_first_occurrence(list, numbers + 2, &are_number_elements_same) == NULL);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 1);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove the first occurrence when it is the first element\n");
+  add_to_list(list, numbers);
+  assert(*(int *)remove_first_occurrence(list, numbers, &are_number_elements_same) == 0);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 0);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove the first occurrence when it is the last element\n");
+  assert(*(int *)remove_first_occurrence(list, numbers, &are_number_elements_same) == 0);
+  assert(list->length == 1);
+  assert(*(int *)list->first->element == 1);
+  assert(*(int *)list->last->element == 1);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove the the single element when it matches\n");
+  assert(*(int *)remove_first_occurrence(list, numbers + 1, &are_number_elements_same) == 1);
+  assert(list->length == 0);
+  assert(list->first == NULL);
+  assert(list->last == NULL);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould remove first match from middle\n");
+  add_to_list(list, numbers);
+  add_to_list(list, numbers + 1);
+  add_to_list(list, numbers + 2);
+  assert(*(int *)remove_first_occurrence(list, numbers + 1, &are_number_elements_same) == 1);
+  assert(list->length == 2);
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 2);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -398,6 +455,7 @@ int main(void)
   test_remove_from_start();
   test_remove_from_end();
   test_remove_at();
+  test_remove_first_occurrence();
 
   return 0;
 }

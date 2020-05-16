@@ -214,3 +214,32 @@ Element remove_at(List_ptr list, int position)
   list->length--;
   return element_of_removing_node;
 }
+
+Element remove_first_occurrence(List_ptr list, Element element, Matcher matcher)
+{
+  if (list->length == 0)
+    return NULL;
+
+  if ((*matcher)(element, list->first->element))
+    return remove_from_start(list);
+
+  Element element_of_removing_node = NULL;
+  Node_ptr curr_node = list->first;
+
+  while (curr_node->next != NULL)
+  {
+    if ((*matcher)(element, curr_node->next->element))
+    {
+      Node_ptr node_to_remove = curr_node->next;
+      curr_node->next = curr_node->next->next;
+      element_of_removing_node = node_to_remove->element;
+      list->last == node_to_remove && (list->last = curr_node);
+      free(node_to_remove);
+      list->length--;
+      break;
+    }
+    curr_node = curr_node->next;
+  }
+
+  return element_of_removing_node;
+}
