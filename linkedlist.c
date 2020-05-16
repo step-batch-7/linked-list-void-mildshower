@@ -291,3 +291,11 @@ Status is_present(List_ptr list, Element element, Matcher matcher)
 
   return is_present;
 }
+
+Status add_unique(List_ptr list, Element element, Matcher matcher)
+{
+  if (is_present(list, element, matcher))
+    return Failure;
+
+  return add_to_list(list, element);
+}

@@ -51,9 +51,8 @@ void test_create_node(void)
   printf("\n\nTesting create_node\n\n");
 
   printf("\tShould create a node with the given element\n");
-  int *number = malloc(sizeof(int));
-  *number = 0;
-  Node_ptr node = create_node(number);
+  int numbers[] = {0};
+  Node_ptr node = create_node(numbers);
   assert(*(int *)node->element == 0);
   assert(node->next == NULL);
   printf("\t\t--passed\n\n");
@@ -65,9 +64,8 @@ void test_get_node(void)
 
   List_ptr list = create_list();
   printf("\tShould give the wanted node\n");
-  int *number = malloc(sizeof(int));
-  *number = 0;
-  assert(add_to_list(list, number));
+  int numbers[] = {0};
+  assert(add_to_list(list, numbers));
   assert(*(int *)get_node(list, 0)->element == 0);
   printf("\t\t--passed\n\n");
 
@@ -81,18 +79,18 @@ void test_add_to_list(void)
   printf("\n\nTesting add_to_list\n\n");
 
   List_ptr list = create_list();
-  int *number = malloc(sizeof(int));
-  *number = 0;
+  int numbers[] = {0, 1};
   printf("\tShould add new number at End when list is empty\n");
-  assert(add_to_list(list, number));
+  assert(add_to_list(list, numbers));
   assert(*(int *)list->last->element == 0);
   assert(*(int *)list->first->element == 0);
   assert(list->length == 1);
   printf("\t\t--passed\n\n");
 
   printf("\tShould add new number at End when list has elements\n");
-  assert(add_to_list(list, number));
-  assert(*(int *)list->last->element == 0);
+  assert(add_to_list(list, numbers + 1));
+  assert(*(int *)list->first->element == 0);
+  assert(*(int *)list->last->element == 1);
   assert(list->length == 2);
   printf("\t\t--passed\n\n");
 }
@@ -102,18 +100,17 @@ void test_add_to_start(void)
   printf("\n\nTesting add_to_start\n\n");
 
   List_ptr list = create_list();
-  int *number = malloc(sizeof(int));
-  *number = 0;
+  int numbers[] = {0, 1};
   printf("\tShould add new number at Start when list is empty\n");
-  assert(add_to_start(list, number));
+  assert(add_to_start(list, numbers));
   assert(*(int *)list->first->element == 0);
   assert(*(int *)list->last->element == 0);
   assert(list->length == 1);
   printf("\t\t--passed\n\n");
 
   printf("\tShould add new number at Start when list has elements\n");
-  assert(add_to_start(list, number));
-  assert(*(int *)list->first->element == 0);
+  assert(add_to_start(list, numbers + 1));
+  assert(*(int *)list->first->element == 1);
   assert(*(int *)list->last->element == 0);
   assert(list->length == 2);
   printf("\t\t--passed\n\n");
@@ -504,6 +501,27 @@ void test_is_present(void)
   printf("\t\t--passed\n\n");
 }
 
+void test_add_unique(void)
+{
+  printf("\n\nTesting add_unique\n\n");
+
+  List_ptr list = create_list();
+  int numbers[] = {0};
+  printf("\tShould add the number that is unique\n");
+  assert(add_unique(list, numbers, &are_number_elements_same));
+  assert(*(int *)list->last->element == 0);
+  assert(*(int *)list->first->element == 0);
+  assert(list->length == 1);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould not add the number that is not unique\n");
+  assert(!add_unique(list, numbers, &are_number_elements_same));
+  assert(*(int *)list->last->element == 0);
+  assert(*(int *)list->first->element == 0);
+  assert(list->length == 1);
+  printf("\t\t--passed\n\n");
+}
+
 int main(void)
 {
   test_create_list();
@@ -523,6 +541,7 @@ int main(void)
   test_remove_first_occurrence();
   test_remove_all_occurrences();
   test_is_present();
+  test_add_unique();
 
   return 0;
 }
