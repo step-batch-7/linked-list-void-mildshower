@@ -526,9 +526,16 @@ void test_clear_list(void)
 {
   printf("\n\nTesting clear_list\n\n");
 
+  printf("\tShould keep an empty list unchanged\n");
   List_ptr list = create_list();
+  assert(clear_list(list));
+  assert(list->last == NULL);
+  assert(list->first == NULL);
+  assert(list->length == 0);
+  printf("\t\t--passed\n\n");
+
+  printf("\tShould clear a list with elements\n");
   int numbers[] = {0, 1};
-  printf("\tShould clear a list\n");
   add_to_list(list, numbers);
   add_to_list(list, numbers + 1);
   assert(clear_list(list));
