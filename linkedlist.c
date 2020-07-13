@@ -192,6 +192,7 @@ Element remove_from_end(List_ptr list)
   Element element_of_removing_node = list->last->element;
   Node_ptr second_last_node = get_node(list, list->length - 2);
   list->last = second_last_node;
+  list->last = NULL;
   free(second_last_node->next);
   list->length--;
   return element_of_removing_node;
